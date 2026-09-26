@@ -193,33 +193,4 @@ export function FitLogProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  return (
-    <FitLogContext.Provider
-      value={{
-        state,
-        addToPlan,
-        removeFromPlan,
-        saveWorkout,
-        removeFromSaved,
-        toggleComplete,
-        isInPlan,
-        isSaved,
-        isCompleted,
-        isPlanFull,
-        planCount: state.plan.length,
-        savedCount: state.saved.length,
-        isInitialized,
-      }}
-    >
-      {children}
-    </FitLogContext.Provider>
-  );
-}
 
-export function useFitLog() {
-  const context = useContext(FitLogContext);
-  if (!context) {
-    throw new Error("useFitLog must be used within a FitLogProvider");
-  }
-  return context;
-}
