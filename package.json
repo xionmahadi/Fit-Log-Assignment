@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node -e \"console.log('\\n\\x1b[32m  💪 FITLOG SERVER READY: http://localhost:3000\\x1b[0m\\n')\" && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
