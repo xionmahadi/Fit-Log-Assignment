@@ -1,4 +1,4 @@
-# FitLog — Workout Library & Daily Plan Tracker
+
 
 FitLog is a dark, premium, editorial fitness workout library and tracking web application built with **Next.js (App Router)**, **React**, **TypeScript**, and **Tailwind CSS**. Designed with an athletic, high-contrast aesthetic, FitLog empowers users to explore a comprehensive directory of strength exercises, lock up to 5 lifts into today's active plan, track live performance metrics, bookmark routines for later, and persist state across sessions.
 
