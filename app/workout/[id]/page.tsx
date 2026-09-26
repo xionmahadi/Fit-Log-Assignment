@@ -138,12 +138,11 @@ export default function WorkoutDetailPage() {
             {/* Primary Action: Add to Today's Plan */}
             <button
               onClick={() => addToPlan(workout)}
-              disabled={addedToPlan || isPlanFull}
               className={`flex-1 inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-bold text-xs tracking-wide transition-all cursor-pointer ${
                 addedToPlan
-                  ? "bg-[#CCFF00]/20 text-[#CCFF00] border border-[#CCFF00]/50 cursor-not-allowed"
+                  ? "bg-[#CCFF00]/20 text-[#CCFF00] border border-[#CCFF00]/50"
                   : isPlanFull
-                  ? "bg-[#111319] text-gray-500 border border-[#1e2029] cursor-not-allowed"
+                  ? "bg-[#111319] text-gray-500 border border-[#1e2029]"
                   : "bg-[#CCFF00] text-black hover:bg-[#b8e600]"
               }`}
             >
@@ -168,10 +167,9 @@ export default function WorkoutDetailPage() {
             {/* Secondary Action: Save for Later */}
             <button
               onClick={() => saveWorkout(workout)}
-              disabled={savedForLater}
               className={`inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-bold text-xs tracking-wide transition-all border cursor-pointer ${
                 savedForLater
-                  ? "bg-[#111319] text-[#CCFF00] border-[#CCFF00]/50 cursor-not-allowed"
+                  ? "bg-[#111319] text-[#CCFF00] border-[#CCFF00]/50"
                   : "bg-[#111319] border-[#2a2d3d] hover:border-[#CCFF00] text-white"
               }`}
             >

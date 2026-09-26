@@ -130,7 +130,7 @@ export function FitLogProvider({ children }: { children: React.ReactNode }) {
 
   const addToPlan = (workout: Workout): boolean => {
     if (isInPlan(workout.id)) {
-      toast.error("Already in today's plan", {
+      toast.warning("Already in your plan", {
         description: `${workout.name} is already added to your plan.`,
       });
       return false;
@@ -160,7 +160,7 @@ export function FitLogProvider({ children }: { children: React.ReactNode }) {
 
   const saveWorkout = (workout: Workout): boolean => {
     if (isSaved(workout.id)) {
-      toast.error("Already in saved workouts", {
+      toast.warning("Already in saved workouts", {
         description: `${workout.name} is already in your saved list.`,
       });
       return false;
