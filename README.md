@@ -51,7 +51,7 @@ FitLog is a dark, premium, editorial fitness workout library and tracking web ap
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/fit-log.git
+git clone https://github.com/xionmahadi/Fit-Log-Assignment.git
 cd fit-log
 ```
 
