@@ -5,18 +5,13 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'img.magnific.com',
+        hostname: '**',
       },
       {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'cdn.pixabay.com',
+        protocol: 'http',
+        hostname: '**',
       },
     ],
-    // In case there are unknown image URLs from external APIs, we can also set unoptimized as fallback or safe option if needed
   },
 };
 
