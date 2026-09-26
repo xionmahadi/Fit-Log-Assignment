@@ -1,63 +1,50 @@
 "use client";
 
-import { Dumbbell, Bookmark } from "lucide-react";
+import { SortDropdown } from "./SortDropdown";
+import { SortOption } from "@/lib/types";
 
 interface PlanTabsProps {
   activeTab: "plan" | "saved";
   onTabChange: (tab: "plan" | "saved") => void;
-  planCount: number;
-  savedCount: number;
+  sortBy: SortOption;
+  onSortChange: (sort: SortOption) => void;
 }
 
 export function PlanTabs({
   activeTab,
   onTabChange,
-  planCount,
-  savedCount,
+  sortBy,
+  onSortChange,
 }: PlanTabsProps) {
   return (
-    <div className="flex border-b border-fit-border">
-      <button
-        onClick={() => onTabChange("plan")}
-        className={`flex items-center gap-2.5 px-6 py-3.5 font-display font-bold text-sm tracking-wider uppercase border-b-2 transition-all cursor-pointer ${
-          activeTab === "plan"
-            ? "border-fit-lime text-fit-lime bg-fit-lime/5"
-            : "border-transparent text-fit-muted hover:text-white hover:bg-fit-surface/40"
-        }`}
-      >
-        <Dumbbell className="w-4 h-4" />
-        <span>Today&apos;s Plan</span>
-        <span
-          className={`px-2 py-0.5 rounded-full text-xs font-mono font-bold ${
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* Pill Tabs Container */}
+      <div className="bg-[#15171e] p-1 rounded-xl border border-[#222530] inline-flex items-center self-start">
+        <button
+          onClick={() => onTabChange("plan")}
+          className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
             activeTab === "plan"
-              ? "bg-fit-lime text-black"
-              : "bg-fit-surface text-fit-muted"
+              ? "bg-[#242733] text-white shadow-sm"
+              : "text-gray-400 hover:text-white"
           }`}
         >
-          {planCount}
-        </span>
-      </button>
+          Today&apos;s Plan
+        </button>
 
-      <button
-        onClick={() => onTabChange("saved")}
-        className={`flex items-center gap-2.5 px-6 py-3.5 font-display font-bold text-sm tracking-wider uppercase border-b-2 transition-all cursor-pointer ${
-          activeTab === "saved"
-            ? "border-fit-lime text-fit-lime bg-fit-lime/5"
-            : "border-transparent text-fit-muted hover:text-white hover:bg-fit-surface/40"
-        }`}
-      >
-        <Bookmark className="w-4 h-4" />
-        <span>Saved</span>
-        <span
-          className={`px-2 py-0.5 rounded-full text-xs font-mono font-bold ${
+        <button
+          onClick={() => onTabChange("saved")}
+          className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
             activeTab === "saved"
-              ? "bg-fit-lime text-black"
-              : "bg-fit-surface text-fit-muted"
+              ? "bg-[#242733] text-white shadow-sm"
+              : "text-gray-400 hover:text-white"
           }`}
         >
-          {savedCount}
-        </span>
-      </button>
+          Saved
+        </button>
+      </div>
+
+      {/* Sort Dropdown */}
+      <SortDropdown value={sortBy} onChange={onSortChange} />
     </div>
   );
 }

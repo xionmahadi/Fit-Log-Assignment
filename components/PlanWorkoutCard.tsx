@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Check, X, ExternalLink, Clock, Flame, Star, Dumbbell } from "lucide-react";
+import { Check, X, Clock, Flame, Star } from "lucide-react";
 import { Workout } from "@/lib/types";
 import { DEFAULT_WORKOUT_IMAGE } from "@/lib/api";
 
@@ -25,17 +25,11 @@ export function PlanWorkoutCard({
   const [imgSrc, setImgSrc] = useState(workout.image);
 
   return (
-    <div
-      className={`rounded-xl bg-fit-card border transition-all duration-300 p-4 sm:p-5 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between ${
-        isCompleted
-          ? "border-fit-lime/40 bg-fit-surface/80 opacity-90"
-          : "border-fit-border hover:border-fit-border-light"
-      }`}
-    >
+    <div className="bg-[#111319] border border-[#1e2029] rounded-2xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-all">
       {/* Left: Thumbnail & Info */}
-      <div className="flex items-center gap-4 w-full sm:w-auto">
+      <div className="flex items-center gap-4 w-full md:w-auto">
         {/* Thumbnail */}
-        <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden bg-fit-surface shrink-0 border border-fit-border">
+        <div className="relative w-28 h-20 rounded-xl overflow-hidden bg-[#181a24] shrink-0 border border-[#222532]">
           <Image
             src={imgSrc}
             alt={workout.name}
@@ -44,48 +38,42 @@ export function PlanWorkoutCard({
             onError={() => setImgSrc(DEFAULT_WORKOUT_IMAGE)}
           />
           {isCompleted && (
-            <div className="absolute inset-0 bg-fit-lime/20 backdrop-blur-[1px] flex items-center justify-center">
-              <span className="bg-fit-lime text-black font-mono font-extrabold text-[10px] px-1.5 py-0.5 rounded uppercase">
+            <div className="absolute inset-0 bg-[#CCFF00]/20 backdrop-blur-[1px] flex items-center justify-center">
+              <span className="bg-[#CCFF00] text-black font-extrabold text-[10px] px-2 py-0.5 rounded uppercase">
                 DONE
               </span>
             </div>
           )}
         </div>
 
-        {/* Workout Info */}
-        <div className="space-y-1.5 flex-grow">
-          <div className="flex items-center gap-2">
-            <h4
-              className={`font-display text-lg font-bold uppercase tracking-wide ${
-                isCompleted ? "line-through text-fit-muted" : "text-white"
-              }`}
-            >
-              {workout.name}
-            </h4>
-            {isCompleted && (
-              <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-fit-lime bg-fit-lime/10 px-2 py-0.5 rounded border border-fit-lime/30">
-                <Check className="w-3 h-3" /> COMPLETED
-              </span>
-            )}
-          </div>
+        {/* Info */}
+        <div className="space-y-1">
+          <h4
+            className={`font-display text-base font-extrabold uppercase tracking-wide ${
+              isCompleted ? "line-through text-gray-400" : "text-white"
+            }`}
+          >
+            {workout.name}
+          </h4>
 
-          <div className="flex items-center gap-1.5 text-xs text-fit-muted font-mono">
-            <Dumbbell className="w-3.5 h-3.5 text-fit-lime shrink-0" />
-            <span>{workout.equipment}</span>
-          </div>
+          <p className="text-xs text-gray-400 font-medium">
+            {workout.equipment}
+          </p>
 
-          {/* Stats Row */}
-          <div className="flex flex-wrap items-center gap-3 pt-1 text-xs font-mono text-fit-muted">
+          {/* Stats Line */}
+          <div className="flex items-center gap-3 pt-1 text-xs font-semibold text-gray-300">
             <div className="flex items-center gap-1">
-              <Clock className="w-3.5 h-3.5 text-fit-lime" />
+              <Clock className="w-3.5 h-3.5 text-[#CCFF00]" />
               <span>{workout.duration} min</span>
             </div>
+
             <div className="flex items-center gap-1">
-              <Flame className="w-3.5 h-3.5 text-orange-400" />
+              <Flame className="w-3.5 h-3.5 text-[#CCFF00]" />
               <span>{workout.caloriesBurned} kcal</span>
             </div>
-            <div className="flex items-center gap-1 text-white font-bold">
-              <Star className="w-3.5 h-3.5 fill-fit-lime text-fit-lime" />
+
+            <div className="flex items-center gap-1">
+              <Star className="w-3.5 h-3.5 text-[#CCFF00]" />
               <span>{workout.rating.toFixed(1)}</span>
             </div>
           </div>
@@ -93,22 +81,21 @@ export function PlanWorkoutCard({
       </div>
 
       {/* Right: Actions */}
-      <div className="flex items-center gap-2.5 w-full sm:w-auto justify-end pt-3 sm:pt-0 border-t sm:border-t-0 border-fit-border/60">
+      <div className="flex items-center gap-3 w-full md:w-auto justify-end pt-2 md:pt-0 border-t md:border-t-0 border-[#1e2029]">
         <Link
           href={`/workout/${workout.id}`}
-          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-fit-surface border border-fit-border text-xs font-mono font-semibold uppercase text-fit-muted hover:text-white hover:border-fit-lime transition-all"
+          className="border border-[#2c3040] bg-[#1b1e28] hover:bg-[#242836] text-white text-xs font-semibold px-5 py-2.5 rounded-full transition-all"
         >
-          <ExternalLink className="w-3.5 h-3.5" />
-          <span className="hidden xs:inline">View Details</span>
+          View Details
         </Link>
 
         {!isSavedTab && onToggleComplete && (
           <button
             onClick={onToggleComplete}
-            className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-lg font-mono text-xs font-bold uppercase transition-all cursor-pointer ${
+            className={`text-xs font-bold px-5 py-2.5 rounded-full flex items-center gap-1.5 transition-all cursor-pointer ${
               isCompleted
-                ? "bg-fit-lime/20 text-fit-lime border border-fit-lime/50 hover:bg-fit-lime/30"
-                : "bg-fit-lime text-black hover:bg-fit-lime-hover shadow-sm"
+                ? "bg-[#CCFF00]/20 text-[#CCFF00] border border-[#CCFF00]/50"
+                : "bg-[#CCFF00] text-black hover:bg-[#b8e600]"
             }`}
           >
             <Check className="w-4 h-4" />
@@ -118,7 +105,7 @@ export function PlanWorkoutCard({
 
         <button
           onClick={onRemove}
-          className="p-2 rounded-lg bg-fit-surface border border-fit-border text-fit-muted hover:text-red-400 hover:border-red-500/50 hover:bg-red-500/10 transition-all cursor-pointer"
+          className="text-gray-400 hover:text-white p-2 transition-colors cursor-pointer"
           aria-label={`Remove ${workout.name}`}
           title="Remove workout"
         >

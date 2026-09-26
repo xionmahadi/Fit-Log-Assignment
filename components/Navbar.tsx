@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X, Dumbbell, Bookmark } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
 import { useFitLog } from "@/lib/context";
 
@@ -12,91 +12,87 @@ export function Navbar() {
   const { planCount, savedCount } = useFitLog();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const isActive = (path: string) => {
-    if (path === "/") return pathname === "/";
-    return pathname.startsWith(path);
-  };
+  const isHome = pathname === "/";
+  const isMyPlan = pathname.startsWith("/my-plan");
 
   return (
-    <header className="sticky top-0 z-50 bg-fit-bg/90 backdrop-blur-md border-b border-fit-border">
+    <header className="sticky top-0 z-50 bg-[#0c0d12]/95 backdrop-blur-md border-b border-[#1b1d26]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Left: Logo */}
         <Logo />
 
-        {/* Center: Nav links (Desktop) */}
-        <nav className="hidden md:flex items-center space-x-8">
+        {/* Center: Navigation Links */}
+        <nav className="hidden md:flex items-center space-x-3">
           <Link
             href="/"
-            className={`text-sm font-semibold tracking-wider uppercase transition-colors py-1 border-b-2 ${
-              isActive("/") && pathname === "/"
-                ? "text-fit-lime border-fit-lime"
-                : "text-fit-muted hover:text-white border-transparent"
+            className={`text-xs font-semibold tracking-wide transition-all px-4 py-2 rounded-full ${
+              isHome
+                ? "bg-[#182603] text-[#CCFF00] border border-[#2e4708]"
+                : "text-gray-400 hover:text-white"
             }`}
           >
-            Workout
+            Workouts
           </Link>
           <Link
             href="/my-plan"
-            className={`text-sm font-semibold tracking-wider uppercase transition-colors py-1 border-b-2 ${
-              isActive("/my-plan")
-                ? "text-fit-lime border-fit-lime"
-                : "text-fit-muted hover:text-white border-transparent"
+            className={`text-xs font-semibold tracking-wide transition-all px-4 py-2 rounded-full ${
+              isMyPlan
+                ? "bg-[#182603] text-[#CCFF00] border border-[#2e4708]"
+                : "text-gray-400 hover:text-white"
             }`}
           >
             My Plan
           </Link>
         </nav>
 
-        {/* Right: Badges (Desktop) */}
-        <div className="hidden md:flex items-center space-x-3">
+        {/* Right: Badges */}
+        <div className="hidden md:flex items-center space-x-6">
           <Link
             href="/my-plan"
-            className="group flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-fit-lime text-black font-semibold text-xs tracking-wider uppercase hover:bg-fit-lime-hover transition-all shadow-sm active:scale-95"
-            aria-label={`Today's Plan with ${planCount} items`}
+            className="flex items-center gap-2 text-xs font-semibold text-gray-300 hover:text-white transition-colors"
           >
-            <Dumbbell className="w-3.5 h-3.5 text-black" />
             <span>Plan</span>
-            <span className="bg-black text-fit-lime px-1.5 py-0.5 rounded-full text-[11px] font-bold min-w-[20px] text-center">
+            <span className="w-5 h-5 rounded-full bg-[#CCFF00] text-black text-[11px] font-extrabold flex items-center justify-center">
               {planCount}
             </span>
           </Link>
 
           <Link
             href="/my-plan"
-            className="group flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-fit-surface border border-fit-border-light text-white font-semibold text-xs tracking-wider uppercase hover:border-fit-lime hover:text-fit-lime transition-all active:scale-95"
-            aria-label={`Saved workouts with ${savedCount} items`}
+            className="flex items-center gap-2 text-xs font-semibold text-gray-300 hover:text-white transition-colors"
           >
-            <Bookmark className="w-3.5 h-3.5 text-fit-muted group-hover:text-fit-lime transition-colors" />
             <span>Saved</span>
-            <span className="bg-fit-card border border-fit-border text-white group-hover:border-fit-lime group-hover:text-fit-lime px-1.5 py-0.5 rounded-full text-[11px] font-bold min-w-[20px] text-center">
+            <span className="w-5 h-5 rounded-full bg-[#1b1e28] border border-[#2c3040] text-white text-[11px] font-extrabold flex items-center justify-center">
               {savedCount}
             </span>
           </Link>
         </div>
 
-        {/* Mobile menu button */}
-        <div className="flex items-center gap-2 md:hidden">
-          {/* Quick badge links on mobile header */}
+        {/* Mobile menu toggle */}
+        <div className="flex items-center gap-3 md:hidden">
           <Link
             href="/my-plan"
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-fit-lime text-black text-xs font-bold"
+            className="flex items-center gap-1.5 text-xs font-bold text-white"
           >
-            <Dumbbell className="w-3 h-3" />
-            <span>{planCount}</span>
+            <span>Plan</span>
+            <span className="w-5 h-5 rounded-full bg-[#CCFF00] text-black text-[11px] font-extrabold flex items-center justify-center">
+              {planCount}
+            </span>
           </Link>
-
           <Link
             href="/my-plan"
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-fit-surface border border-fit-border text-white text-xs font-bold"
+            className="flex items-center gap-1.5 text-xs font-bold text-white"
           >
-            <Bookmark className="w-3 h-3 text-fit-lime" />
-            <span>{savedCount}</span>
+            <span>Saved</span>
+            <span className="w-5 h-5 rounded-full bg-[#1b1e28] border border-[#2c3040] text-white text-[11px] font-extrabold flex items-center justify-center">
+              {savedCount}
+            </span>
           </Link>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-fit-muted hover:text-white rounded-lg focus:outline-none focus:ring-1 focus:ring-fit-lime"
-            aria-label="Toggle Navigation Menu"
+            className="p-1.5 text-gray-400 hover:text-white"
+            aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -105,31 +101,25 @@ export function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-fit-surface border-b border-fit-border px-4 pt-3 pb-6 space-y-4">
-          <nav className="flex flex-col space-y-3">
-            <Link
-              href="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`text-base font-semibold uppercase tracking-wider py-2 px-3 rounded-lg transition-colors ${
-                isActive("/") && pathname === "/"
-                  ? "bg-fit-card text-fit-lime border-l-4 border-fit-lime"
-                  : "text-fit-muted hover:text-white"
-              }`}
-            >
-              Workout Library
-            </Link>
-            <Link
-              href="/my-plan"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`text-base font-semibold uppercase tracking-wider py-2 px-3 rounded-lg transition-colors ${
-                isActive("/my-plan")
-                  ? "bg-fit-card text-fit-lime border-l-4 border-fit-lime"
-                  : "text-fit-muted hover:text-white"
-              }`}
-            >
-              My Plan ({planCount})
-            </Link>
-          </nav>
+        <div className="md:hidden bg-[#0c0d12] border-b border-[#1b1d26] px-4 py-4 space-y-2">
+          <Link
+            href="/"
+            onClick={() => setMobileMenuOpen(false)}
+            className={`block text-sm font-semibold px-4 py-2.5 rounded-lg ${
+              isHome ? "bg-[#182603] text-[#CCFF00]" : "text-gray-400"
+            }`}
+          >
+            Workouts
+          </Link>
+          <Link
+            href="/my-plan"
+            onClick={() => setMobileMenuOpen(false)}
+            className={`block text-sm font-semibold px-4 py-2.5 rounded-lg ${
+              isMyPlan ? "bg-[#182603] text-[#CCFF00]" : "text-gray-400"
+            }`}
+          >
+            My Plan
+          </Link>
         </div>
       )}
     </header>

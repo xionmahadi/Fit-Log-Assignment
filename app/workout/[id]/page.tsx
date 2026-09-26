@@ -4,13 +4,12 @@ import { useEffect, useState } from "react";
 import { useParams, notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Dumbbell, Bookmark, Check, ArrowLeft, AlertTriangle } from "lucide-react";
+import { Calendar, Bookmark, Check, ArrowLeft, AlertTriangle } from "lucide-react";
 import { Workout } from "@/lib/types";
 import { fetchWorkoutById, DEFAULT_WORKOUT_IMAGE } from "@/lib/api";
 import { useFitLog } from "@/lib/context";
 import { SpecsPanel } from "@/components/SpecsPanel";
 import { InstructionList } from "@/components/InstructionList";
-import { LoadingSkeleton } from "@/components/LoadingSkeleton";
 
 export default function WorkoutDetailPage() {
   const params = useParams();
@@ -55,13 +54,13 @@ export default function WorkoutDetailPage() {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-        <div className="h-6 w-32 bg-fit-surface rounded animate-pulse" />
+        <div className="h-6 w-32 bg-[#111319] rounded animate-pulse" />
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          <div className="lg:col-span-5 h-[400px] bg-fit-surface rounded-2xl animate-pulse" />
-          <div className="lg:col-span-7 space-y-4">
-            <div className="h-10 w-2/3 bg-fit-surface rounded animate-pulse" />
-            <div className="h-20 w-full bg-fit-surface rounded animate-pulse" />
-            <div className="h-40 w-full bg-fit-surface rounded animate-pulse" />
+          <div className="lg:col-span-6 h-[450px] bg-[#111319] rounded-2xl animate-pulse" />
+          <div className="lg:col-span-6 space-y-4">
+            <div className="h-10 w-2/3 bg-[#111319] rounded animate-pulse" />
+            <div className="h-16 w-full bg-[#111319] rounded animate-pulse" />
+            <div className="h-48 w-full bg-[#111319] rounded animate-pulse" />
           </div>
         </div>
       </div>
@@ -81,7 +80,7 @@ export default function WorkoutDetailPage() {
       <div className="mb-6">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase text-fit-muted hover:text-fit-lime transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase text-gray-400 hover:text-[#CCFF00] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>BACK TO WORKOUTS</span>
@@ -91,42 +90,48 @@ export default function WorkoutDetailPage() {
       {/* Main 2-column layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
         {/* Left Column: Image */}
-        <div className="lg:col-span-5 relative group">
-          <div className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5] w-full rounded-2xl overflow-hidden bg-fit-card border border-fit-border shadow-2xl">
+        <div className="lg:col-span-6">
+          <div className="relative aspect-[4/3] sm:aspect-[1/1] w-full rounded-2xl overflow-hidden bg-[#111319] border border-[#1e2029] shadow-2xl">
             <Image
               src={imgSrc}
               alt={workout.name}
               fill
               priority
-              className="object-cover group-hover:scale-105 transition-transform duration-700"
+              className="object-cover"
               onError={() => setImgSrc(DEFAULT_WORKOUT_IMAGE)}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-fit-card via-transparent to-transparent opacity-80" />
-
-            <div className="absolute top-4 left-4 flex flex-wrap gap-2 z-10">
-              {workout.muscleGroups.map((group, idx) => (
-                <span
-                  key={idx}
-                  className="px-3 py-1 rounded-md bg-fit-bg/90 backdrop-blur-md border border-fit-border text-xs font-mono font-bold uppercase tracking-wider text-fit-lime"
-                >
-                  {group}
-                </span>
-              ))}
-            </div>
           </div>
         </div>
 
         {/* Right Column: Information & Actions */}
-        <div className="lg:col-span-7 space-y-6">
-          {/* Title & Description */}
-          <div className="space-y-3">
-            <h1 className="font-display text-3xl sm:text-5xl font-extrabold uppercase text-white tracking-tight leading-tight">
+        <div className="lg:col-span-6 space-y-6">
+          {/* Title & Subtitle */}
+          <div className="space-y-2">
+            <h1 className="font-display text-3xl sm:text-4xl font-extrabold uppercase text-white tracking-tight leading-tight">
               {workout.name}
             </h1>
-            <p className="text-fit-muted text-base sm:text-lg font-normal leading-relaxed">
+            <p className="text-gray-400 text-xs sm:text-sm font-medium leading-relaxed">
               {workout.description}
             </p>
           </div>
+
+          {/* Category Pill Badges */}
+          <div className="flex flex-wrap gap-2">
+            {workout.muscleGroups.map((group, idx) => (
+              <span
+                key={idx}
+                className="px-4 py-1.5 rounded-full bg-[#CCFF00] text-black font-bold text-xs"
+              >
+                {group}
+              </span>
+            ))}
+          </div>
+
+          {/* Key Specs Panel */}
+          <SpecsPanel workout={workout} />
+
+          {/* Instructions */}
+          <InstructionList instructions={workout.instructions} />
 
           {/* Action Buttons */}
           <div className="pt-2 flex flex-col sm:flex-row gap-3">
@@ -134,28 +139,28 @@ export default function WorkoutDetailPage() {
             <button
               onClick={() => addToPlan(workout)}
               disabled={addedToPlan || isPlanFull}
-              className={`flex-1 inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl font-display font-bold text-base tracking-wider uppercase transition-all shadow-lg cursor-pointer ${
+              className={`flex-1 inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-bold text-xs tracking-wide transition-all cursor-pointer ${
                 addedToPlan
-                  ? "bg-fit-lime/20 text-fit-lime border border-fit-lime/50 cursor-not-allowed"
+                  ? "bg-[#CCFF00]/20 text-[#CCFF00] border border-[#CCFF00]/50 cursor-not-allowed"
                   : isPlanFull
-                  ? "bg-fit-surface text-fit-muted border border-fit-border cursor-not-allowed opacity-75"
-                  : "bg-fit-lime text-black hover:bg-fit-lime-hover hover:-translate-y-0.5 active:translate-y-0"
+                  ? "bg-[#111319] text-gray-500 border border-[#1e2029] cursor-not-allowed"
+                  : "bg-[#CCFF00] text-black hover:bg-[#b8e600]"
               }`}
             >
               {addedToPlan ? (
                 <>
-                  <Check className="w-5 h-5 text-fit-lime" />
-                  <span>ADDED TO TODAY&apos;S PLAN</span>
+                  <Check className="w-4 h-4 text-[#CCFF00]" />
+                  <span>Added to today&apos;s plan</span>
                 </>
               ) : isPlanFull ? (
                 <>
-                  <AlertTriangle className="w-5 h-5 text-orange-400" />
-                  <span>PLAN FULL (5/5 MAX)</span>
+                  <AlertTriangle className="w-4 h-4 text-orange-400" />
+                  <span>Plan Full (5/5)</span>
                 </>
               ) : (
                 <>
-                  <Dumbbell className="w-5 h-5" />
-                  <span>ADD TO TODAY&apos;S PLAN</span>
+                  <Calendar className="w-4 h-4" />
+                  <span>Add to today&apos;s plan</span>
                 </>
               )}
             </button>
@@ -164,38 +169,25 @@ export default function WorkoutDetailPage() {
             <button
               onClick={() => saveWorkout(workout)}
               disabled={savedForLater}
-              className={`inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl font-display font-bold text-base tracking-wider uppercase transition-all border cursor-pointer ${
+              className={`inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-bold text-xs tracking-wide transition-all border cursor-pointer ${
                 savedForLater
-                  ? "bg-fit-surface text-fit-lime border-fit-lime/50 cursor-not-allowed"
-                  : "bg-fit-card border-fit-border-light text-white hover:border-fit-lime hover:text-fit-lime hover:-translate-y-0.5 active:translate-y-0"
+                  ? "bg-[#111319] text-[#CCFF00] border-[#CCFF00]/50 cursor-not-allowed"
+                  : "bg-[#111319] border-[#2a2d3d] hover:border-[#CCFF00] text-white"
               }`}
             >
               {savedForLater ? (
                 <>
-                  <Check className="w-5 h-5 text-fit-lime" />
-                  <span>SAVED FOR LATER</span>
+                  <Check className="w-4 h-4 text-[#CCFF00]" />
+                  <span>Saved for later</span>
                 </>
               ) : (
                 <>
-                  <Bookmark className="w-5 h-5" />
-                  <span>SAVE FOR LATER</span>
+                  <Bookmark className="w-4 h-4" />
+                  <span>Save for later</span>
                 </>
               )}
             </button>
           </div>
-
-          {/* Plan limit warning message if full and not added */}
-          {isPlanFull && !addedToPlan && (
-            <p className="text-xs font-mono text-orange-400/90 bg-orange-500/10 border border-orange-500/20 px-3 py-2 rounded-lg">
-              Note: Today&apos;s plan is capped at 5 workouts. Remove a workout from your plan to add this one.
-            </p>
-          )}
-
-          {/* Key Specs */}
-          <SpecsPanel workout={workout} />
-
-          {/* Instructions */}
-          <InstructionList instructions={workout.instructions} />
         </div>
       </div>
     </div>
